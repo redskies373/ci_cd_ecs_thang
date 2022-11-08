@@ -8,3 +8,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app.py ./
 # Run application 
 CMD python app.py
+EXPOSE  8080
