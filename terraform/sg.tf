@@ -51,3 +51,17 @@ resource "aws_security_group" "github-actions-sg" {
     ipv6_cidr_blocks = ["::/0"]
   }
 }
+
+resource "aws_security_group" "github-runner-sg" {
+  name        = "github-runner-sg"
+  description = "security group for github actions self hosted runner"
+  vpc_id      = var.vpc_id
+
+  egress {
+    from_port        = 443
+    to_port          = 443
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+}

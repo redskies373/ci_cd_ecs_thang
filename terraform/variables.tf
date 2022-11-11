@@ -14,3 +14,11 @@ variable "dns_zone_id" {
 variable "task_role_arn" {
     type        = string
 }
+variable "gha_user" {
+    type        = string
+    default     = "github-actions"
+}
+variable "gha_repo" {
+    type        = string
+    default     = "ci_cd_ecs_thang"
+}
