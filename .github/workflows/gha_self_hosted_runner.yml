@@ -95,7 +95,7 @@ jobs:
         service: github-actions-service
         cluster: github-actions-cluster
         wait-for-service-stability: true
-stop-runner:
+  stop-runner:
     name: Stop self-hosted EC2 runner
     needs:
       - start-runner # required to get output from the start-runner job
