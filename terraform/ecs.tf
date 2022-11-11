@@ -56,7 +56,7 @@ resource "aws_ecs_service" "github-actions-service" {
   network_configuration {
     subnets             = var.subnets
     security_groups     = [aws_security_group.github-actions-sg.id]
-    assign_public_ip    = false
+    assign_public_ip    = true
   }
 
   load_balancer {
