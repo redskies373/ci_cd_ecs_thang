@@ -27,7 +27,7 @@ jobs:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           ec2-image-id: ami-0bed9aff8f6c2e1cb
           ec2-instance-type: t3.nano
-          subnet-id: {{ secrets.GHA_RUNNER_SUBNET_ID }}
+          subnet-id: subnet-5b55ac16
           security-group-id: {{ secrets.GHA_RUNNER_SG }}
   deploy:
     name: Deploy
