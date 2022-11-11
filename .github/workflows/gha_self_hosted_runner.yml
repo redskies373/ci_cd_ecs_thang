@@ -28,7 +28,7 @@ jobs:
           ec2-image-id: ami-0bed9aff8f6c2e1cb
           ec2-instance-type: t3.nano
           subnet-id: subnet-5b55ac16
-          security-group-id: {{ secrets.GHA_RUNNER_SG }}
+          security-group-id: sg-078d6d3c73d7b9f9a
   deploy:
     name: Deploy
     needs: start-runner # required to start the main job when the runner is ready
