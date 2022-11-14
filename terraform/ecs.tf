@@ -23,21 +23,21 @@ resource "aws_ecs_task_definition" "github-runner-td" {
     family                      = "github-actions-task-definition"
     requires_compatibilities    = ["FARGATE"]
     network_mode                = "awsvpc"
-    cpu                         = 256
-    memory                      = 512
+    cpu                         = var.container_cpu
+    memory                      = var.container_memory
     execution_role_arn          = var.task_role_arn
     task_role_arn               = var.task_role_arn
     container_definitions       = jsonencode([
     {
-        name                    = "github-actions"
-        image                   = "github-actions"
-        cpu                     = 256
-        memory                  = 512
+        name                    = aws_ecr_repository.github-actions-repo.name
+        image                   = aws_ecr_repository.github-actions-repo.name
+        cpu                     = var.container_cpu
+        memory                  = var.container_memory
         essential               = true
         portMappings            = [
         {
-            containerPort = 8080
-            hostPort      = 8080
+            containerPort = var.container_port
+            hostPort      = var.container_port
         }]
     }])
     
@@ -62,6 +62,6 @@ resource "aws_ecs_service" "github-actions-service" {
   load_balancer {
     target_group_arn = aws_lb_target_group.github-actions-tg.arn
     container_name   = "github-actions"
-    container_port   = 8080
+    container_port   = var.container_port
   }
 }

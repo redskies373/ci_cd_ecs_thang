@@ -36,8 +36,8 @@ resource "aws_security_group" "github-actions-sg" {
   vpc_id      = var.vpc_id
 
   ingress {
-    from_port        = 8080
-    to_port          = 8080
+    from_port        = var.container_port
+    to_port          = var.container_port
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]

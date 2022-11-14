@@ -8,7 +8,7 @@ resource "aws_lb" "github-actions-alb" {
 
 resource "aws_lb_target_group" "github-actions-tg" {
   name                  = "github-actions-tg"
-  port                  = 8080
+  port                  = var.container_port
   protocol              = "HTTP"
   target_type           = "ip"
   vpc_id                = var.vpc_id

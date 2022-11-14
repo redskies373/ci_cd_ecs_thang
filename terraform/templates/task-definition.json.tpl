@@ -5,13 +5,13 @@
     "inferenceAccelerators": [],
     "containerDefinitions": [
         {
-            "name": "github-actions",
-            "image": "github-actions :00000",
+            "name": "${ecr_repo}",
+            "image": "${ecr_repo} :00000",
             "resourceRequirements": null,
             "essential": true,
             "portMappings": [
                 {
-                    "containerPort": "8080",
+                    "containerPort": "${container_port}",
                     "protocol": "tcp"
                 }
                 
@@ -20,9 +20,9 @@
     ],
     "volumes": [],
     "networkMode": "awsvpc",
-    "memory": "512",
-    "cpu": "256",
-    "executionRoleArn": "arn:aws:iam::966510751703:role/ecsTaskExecutionRole",
+    "memory": "${container_memory}",
+    "cpu": "${container_cpu}",
+    "executionRoleArn": "${execution_role}",
     "family": "github-actions-task-definition",
     "taskRoleArn": "",
     "placementConstraints": [] 
