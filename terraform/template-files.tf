@@ -1,5 +1,5 @@
 data "template_file" ecs_task_configuration_def {
-  template = file("${path.module}/templates/task-definition.json.tpl")
+  template = file("${path.module}/templates/${var.task_def_file_name}.tpl")
   vars = {
     ecr_registry                = local.ecr_registry
     ecr_repo                    = aws_ecr_repository.github-actions-repo.name
@@ -12,18 +12,14 @@ data "template_file" ecs_task_configuration_def {
 
 resource "null_resource" "ecs_task_def_render_template" {
   triggers = {
-    src_hash = file("${path.module}/templates/task-definition.json.tpl")
+    src_hash = file("${path.module}/templates/${var.task_def_file_name}.tpl")
   }
   depends_on = [data.template_file.ecs_task_configuration_def]
 
   provisioner "local-exec" {
-    #command = <<EOF
-#tee ${path.module}/task-definition.json <<ENDF
-#${data.template_file.jenkins_configuration_def.rendered}
-#EOF
     command = format(
       "cat <<\"EOF\" > \"%s\"\n%s\nEOF",
-      "../task-definition.json",
+      "../${var.task_def_file_name}",
       data.template_file.ecs_task_configuration_def.rendered
     )
   }

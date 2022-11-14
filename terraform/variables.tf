@@ -34,3 +34,14 @@ variable "container_memory" {
     type        = number
     default     = 512
 }
+variable "runner_ami" {
+    type        = string
+}
+variable "runner_instance_type" {
+    type        = string
+    default     = "t3.nano"
+}
+variable "task_def_file_name" {
+    type        = string
+    default     = "task-definition.json"
+}
