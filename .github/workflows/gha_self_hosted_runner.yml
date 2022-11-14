@@ -29,6 +29,7 @@ jobs:
           ec2-instance-type: t3.nano
           subnet-id: subnet-5b55ac16
           security-group-id: sg-02dc0adeec9fa615f
+
   deploy:
     name: Deploy
     needs: start-runner # required to start the main job when the runner is ready
@@ -54,7 +55,6 @@ jobs:
         
     - name: Checkout
       uses: actions/checkout@v1
-
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -66,7 +66,6 @@ jobs:
       #uses: aws-actions/amazon-ecr-login@v1
       run: |
         aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 966510751703.dkr.ecr.us-east-1.amazonaws.com
-
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
@@ -77,10 +76,9 @@ jobs:
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" 
-        
+        docker build . -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+        docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"         
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
@@ -88,7 +86,6 @@ jobs:
         task-definition: task-definition.json
         container-name: github-actions
         image: ${{ steps.build-image.outputs.image }}
-
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
@@ -96,6 +93,7 @@ jobs:
         service: github-actions-service
         cluster: github-actions-cluster
         wait-for-service-stability: true
+
   stop-runner:
     name: Stop self-hosted EC2 runner
     needs:
@@ -103,6 +101,7 @@ jobs:
       - deploy # required to wait when the main job is done
     runs-on: ubuntu-latest
     if: ${{ always() }} # required to stop the runner even if the error happened in the previous jobs
+
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
