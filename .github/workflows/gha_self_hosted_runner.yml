@@ -25,7 +25,7 @@ jobs:
         with:
           mode: start
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          ec2-image-id: ami-0fe33eb5e2964420b
+          ec2-image-id: ami-09d48adfe35882a23
           ec2-instance-type: t3.nano
           subnet-id: subnet-5b55ac16
           security-group-id: sg-078d6d3c73d7b9f9a
@@ -95,3 +95,24 @@ jobs:
         service: github-actions-service
         cluster: github-actions-cluster
         wait-for-service-stability: true
+  stop-runner:
+    name: Stop self-hosted EC2 runner
+    needs:
+      - start-runner # required to get output from the start-runner job
+      - deploy # required to wait when the main job is done
+    runs-on: ubuntu-latest
+    if: ${{ always() }} # required to stop the runner even if the error happened in the previous jobs
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.GHA_RUNNER_ACCESS_ID }}
+          aws-secret-access-key: ${{ secrets.GHA_RUNNER_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Stop EC2 runner
+        uses: machulav/ec2-github-runner@v2
+        with:
+          mode: stop
+          github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          label: ${{ needs.start-runner.outputs.label }}
+          ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}

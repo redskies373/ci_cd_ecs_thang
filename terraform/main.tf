@@ -12,4 +12,10 @@ terraform {
     region          = "us-east-1"
     encrypt         = true
   }
+  required_providers {
+    github = {
+      source  = "integrations/github"
+      version = "~> 4.0"
+    }
+  }
 }
