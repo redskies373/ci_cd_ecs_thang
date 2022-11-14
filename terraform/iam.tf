@@ -8,7 +8,10 @@ resource "aws_iam_policy" "gha-self-hosted-runner-policy" {
     Statement = [
       {
         Action = [
+          "ec2:CreateAction",
           "ec2:RunInstances",
+          "ec2:ReplaceIamInstanceProfileAssociation",
+          "ec2:AssociateIamInstanceProfile",
           "ec2:TerminateInstances",
           "ec2:DescribeInstances",
           "ec2:DescribeInstanceStatus",
