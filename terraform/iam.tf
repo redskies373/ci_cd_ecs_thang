@@ -21,16 +21,6 @@ resource "aws_iam_policy" "gha-self-hosted-runner-policy" {
   })
 }
 
-resource "aws_iam_policy_attachment" "gha_attachment" {
-  name       = "gha_attachment"
-  users      = [var.gha_user]
-  policy_arn = aws_iam_policy.gha-self-hosted-runner-policy.arn
-}
-
-resource "aws_iam_access_key" "gha-access-key" {
-  user  = var.gha_user
-}
-
 resource "aws_iam_policy_attachment" "gha_role_attachment" {
   name       = "gha_role_attachment"
   roles      = ["gha_runner_role"]
