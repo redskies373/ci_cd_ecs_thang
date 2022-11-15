@@ -28,7 +28,7 @@ jobs:
           ec2-image-id: ami-09d48adfe35882a23
           ec2-instance-type: t3.nano
           subnet-id: subnet-5b55ac16
-          security-group-id: sg-02dc0adeec9fa615f
+          security-group-id: ${{ secrets.GHA_RUNNER_SG }}
           iam-role-name: gha_runner_role
 
   deploy:
