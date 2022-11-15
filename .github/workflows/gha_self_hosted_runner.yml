@@ -2,7 +2,9 @@ on:
   push:
     branches:
       - master 
-#adding a comment to test codeowners file
+    tags:
+      - "production/**"
+
 name: Deploy Hello World
 
 jobs:
