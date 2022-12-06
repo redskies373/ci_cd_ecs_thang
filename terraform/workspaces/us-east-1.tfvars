@@ -4,3 +4,4 @@ subnets         = ["subnet-5b55ac16","subnet-6e754032","subnet-99ecc5fe"]
 dns_zone_id     = "Z0387400SY3Q17ZJRMQM"
 task_role_arn   = "arn:aws:iam::966510751703:role/ecsTaskExecutionRole"
 runner_ami      = "ami-09d48adfe35882a23"
+github_env      = "production"

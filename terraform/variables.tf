@@ -45,3 +45,6 @@ variable "task_def_file_name" {
     type        = string
     default     = "task-definition.json"
 }
+variable "github_env" {
+    type        = string
+}
